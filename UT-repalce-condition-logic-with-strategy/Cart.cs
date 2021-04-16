@@ -8,40 +8,24 @@ namespace repalce_condition_logic_with_strategy
     {
         public double shippingFee(string shipper, double length, double width, double height, double weight)
         {
+            ICart cart = null;
             if (shipper.Equals("black cat"))
             {
-                if (weight > 20)
-                {
-                    return 500;
-                }
-                else
-                {
-                    return 100 + weight * 10;
-                }
+                cart = new BlackCat(weight);
             }
             else if (shipper.Equals("hsinchu"))
             {
-                double size = length * width * height;
-                if (length > 100 || width > 100 || height > 100)
-                {
-                    return size * 0.00002 * 1100 + 500;
-                }
-                else
-                {
-                    return size * 0.00002 * 1200;
-                }
+                cart = new HsinchuCat(length, width, height);
             }
             else if (shipper.Equals("post office"))
             {
-                double feeByWeight = 80 + weight * 10;
-                double size = length * width * height;
-                double feeBySize = size * 0.00002 * 1100;
-                return feeByWeight < feeBySize ? feeByWeight : feeBySize;
+                cart = new PostOfficeCat(length, width, height, weight);
             }
-            else
-            {
+
+            if (cart == null)
                 throw new ArgumentException("shipper not exist");
-            }
+
+            return cart.shippingFee();
         }
     }
 

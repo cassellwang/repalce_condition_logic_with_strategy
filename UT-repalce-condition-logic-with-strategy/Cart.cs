@@ -13,21 +13,28 @@ namespace repalce_condition_logic_with_strategy
 
         private IShipping ShippingFactory(string shipper, double length, double width, double height, double weight)
         {
-            IShipping f;
+            Dictionary<string, IShipping> dic = new Dictionary<string, IShipping>()
+            {
+                { "black cat" , new BlackCat(weight)},
+                { "hsinchu" , new HsinchuCat(length, width, height)},
+                { "post office" , new PostOfficeCat(length, width, height, weight)},
+            };
+            IShipping f = dic[shipper];
             
-            if (shipper.Equals("black cat"))
-            {
-                f = new BlackCat(weight);
-            }
-            else if (shipper.Equals("hsinchu"))
-            {
-                f = new HsinchuCat(length, width, height);
-            }
-            else if (shipper.Equals("post office"))
-            {
-                f = new PostOfficeCat(length, width, height, weight);
-            }
-            else
+            //if (shipper.Equals("black cat"))
+            //{
+            //    f = new BlackCat(weight);
+            //}
+            //else if (shipper.Equals("hsinchu"))
+            //{
+            //    f = new HsinchuCat(length, width, height);
+            //}
+            //else if (shipper.Equals("post office"))
+            //{
+            //    f = new PostOfficeCat(length, width, height, weight);
+            //}
+            //else
+            if (f == null)
                 throw new ArgumentException("shipper not exist");
 
             return f;
